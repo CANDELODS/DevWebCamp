@@ -2,14 +2,31 @@
 
 namespace Controllers;
 
+use Classes\Paginacion;
 use MVC\Router;
 use Model\Ponente;
 use Intervention\Image\ImageManagerStatic as Image;
 
 class PonentesController {
     public static function index(Router $router){
-        $ponentes = Ponente::all();
+        //Proteger Ruta
+        if(!isAdmin()){
+            header('Location: /login');
+        }
+        //PAGINACIÓN
+        //Obtenemos La Página Actual De La URL
+        $pagina_actual = $_GET['page'];
+        //Verificamos Que Sea Un Entero
+        $pagina_actual = filter_var($pagina_actual, FILTER_VALIDATE_INT);
+        if(!$pagina_actual || $pagina_actual < 1){ //Si Es Un Número Negativo
+            header('Location: /admin/ponentes?page=1');
+        }
+        $registros_por_pagina = 10;
+        $total_registros = Ponente::total();
+        $paginacion = new Paginacion($pagina_actual, $registros_por_pagina, $total_registros);
 
+        //FIN PAGINACIÓN
+        $ponentes = Ponente::all();
         $router->render('admin/ponentes/index',[
             'titulo' => 'Ponentes / Conferencistas',
             'ponentes' => $ponentes
@@ -17,10 +34,18 @@ class PonentesController {
     }
     
     public static function crear(Router $router){
+        //Proteger Ruta
+        if(!isAdmin()){
+            header('Location: /login');
+        }
         $alertas = [];
         $ponente = new Ponente;
 
         if($_SERVER['REQUEST_METHOD'] === 'POST'){
+        //Proteger Ruta
+        if(!isAdmin()){
+            header('Location: /login');
+        }
             //Leer Imagen $_File['image] : 'imagen' Viene Del Name Del Formulario En Su Campo De Imagen
             if(!empty($_FILES['imagen']['tmp_name'])){
                 //Pasos Para Procesar Y Generar Versiones De Imagenes
@@ -70,6 +95,10 @@ class PonentesController {
     }
 
     public static function editar(Router $router){
+        //Proteger Ruta
+        if(!isAdmin()){
+            header('Location: /login');
+        }
         $alertas = [];
         //Validar ID
         $id = $_GET['id'];
@@ -93,6 +122,10 @@ class PonentesController {
         $redes = json_decode($ponente->redes);
 
         if($_SERVER['REQUEST_METHOD'] === 'POST'){
+        //Proteger Ruta
+        if(!isAdmin()){
+            header('Location: /login');
+        }
             //Verificar Si Hay Una Nueva Imagen
             if(!empty($_FILES['imagen']['tmp_name'])){
                 $carpeta_imagenes = '../public/img/speakers';
@@ -146,8 +179,16 @@ class PonentesController {
     }
 
     public static function eliminar(){
+        //Proteger Ruta
+        if(!isAdmin()){
+            header('Location: /login');
+        }
 
         if($_SERVER['REQUEST_METHOD'] === 'POST'){
+        //Proteger Ruta
+        if(!isAdmin()){
+            header('Location: /login');
+        }
             //Recuperar El Id
             $id = $_POST['id'];
             //Traemos La Información Del Ponente A Eliminar

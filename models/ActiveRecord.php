@@ -131,6 +131,14 @@ class ActiveRecord {
         return array_shift( $resultado ) ;
     }
 
+    //Traer Un Total De Registros
+    public static function total(){
+        $query = "SELECT COUNT(*) FROM " . static::$tabla;
+        $resultado = self::$db->query($query);
+        $total = $resultado->fetch_array(); //Traemos Los Resultados
+        return array_shift($total); //Array Shift Extrae El Primer Registro Del Arreglo
+    }
+
     // crea un nuevo registro
     public function crear() {
         // Sanitizar los datos
