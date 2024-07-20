@@ -19,7 +19,3 @@
         <input type="submit" class="formulario__submit formulario__submit--registrar" value="Registar Ponente">
     </form>
 </div>
-
-<!-- <?php
-    // $script = '<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/js/select2.min.js"></script>';
-?> -->
