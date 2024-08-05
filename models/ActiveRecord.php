@@ -138,6 +138,24 @@ class ActiveRecord {
         return array_shift( $resultado ) ;
     }
 
+    // Busqueda Where Con Multiples Opciones
+    public static function whereArray($array = []) {
+        $query = "SELECT * FROM " . static::$tabla . " WHERE ";
+        foreach($array as $key => $value){
+            if($key == array_key_last($array)){ //Si La Llave Que Estamos Iterando Es La Última Entonces:
+                //No Agregamos AND
+                $query.= " ${key} = '${value}'";
+
+            }else{
+                //Como No Es La Ultima Seguimos Agregando El AND
+                $query.= " ${key} = '${value}' AND ";
+            }
+        }
+        // echo $query; Permite Ver El Query
+        $resultado = self::consultarSQL($query);
+        return array_shift( $resultado ) ;
+    }
+
     //Traer Un Total De Registros
     public static function total(){
         $query = "SELECT COUNT(*) FROM " . static::$tabla;
