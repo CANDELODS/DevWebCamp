@@ -53,7 +53,7 @@
 
         <ul id="horas" class="horas">
                 <?php foreach($horas as $hora) { ?>
-                    <li data-hora-id="<?php echo $hora->id; ?>" class="horas__hora"><?php echo $hora->hora; ?></li>
+                    <li data-hora-id="<?php echo $hora->id; ?>" class="horas__hora horas__hora--deshabilitada"><?php echo $hora->hora; ?></li>
                 <?php } ?>
         </ul>
 
@@ -72,6 +72,9 @@
         class="formulario__input"
         id="ponentes"
         placeholder="Buscar Ponente">
+
+        <ul id="listado-ponentes" class="listado-ponentes"></ul>
+        <input type="hidden" name="ponente_id" value="">
     </div>
 
     <div class="formulario__campo">
