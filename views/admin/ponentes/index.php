@@ -14,7 +14,7 @@
             <tr>
                 <th scope="col" class="table__th">Nombre</th>
                 <th scope="col" class="table__th">Ubicación</th>
-                <th scope="col" class="table__th"></th>
+                <th scope="col" class="table__th"></th> <!--Editar O Eliminar-->
             </tr>
         </thead>
 

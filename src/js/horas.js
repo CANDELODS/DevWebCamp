@@ -3,12 +3,6 @@
     const horas = document.querySelector('#horas');
     //Si Seleccionó Una Hora Entonces
     if(horas){
-        let busqueda = {
-            //La Categoría Vendrá Del Select De Categorias Con El name="categoria_id"
-            categoria_id: '',
-            //Los Días Vendrán De Los Radio Buttons Con El name="dia"
-            dia: ''
-        };
         //Selecciono La Categoria
         const categoria = document.querySelector('[name="categoria_id"]');
         //Le Asignamos El Evento Change Con La Función terminoBusqueda
@@ -20,6 +14,30 @@
         const inputHiddenHora = document.querySelector('[name="hora_id"]');
         //Iteramos Los Días Y Les Asignamos El Evento Change Con La Función terminoBusqueda
         dias.forEach( dia=> dia.addEventListener('change', terminoBusqueda));
+
+        let busqueda = {
+            //La Categoría Vendrá Del Select De Categorias Con El name="categoria_id"
+            categoria_id: +categoria.value || '', //(+) Hace El Numero Entero
+            //Los Días Vendrán De Los Radio Buttons Con El name="dia"
+            dia: +inputHiddenDia.value || ''
+        };
+        //Comprobamos Si El Objeto Está Lleno O Sea: Si Los Dos Campos (categoria_id, dia_id) Tienen Algo Entonces
+        if(!Object.values(busqueda).includes('')){
+
+            (async() =>{
+            //Hacemos Que Se Ejecuten Las Siguientes Lineas Cuando Esta Función Finalice
+            //Esto Con El Fin De Poder Quitar La Clase horas__hora--deshabilitada
+            await buscarEventos();
+            
+            //Resaltar Hora Actual
+            const id = inputHiddenHora.value; //Obtenemos El Id De La Hora Que Tiene El Evento Actual
+            const horaSeleccionada = document.querySelector(`[data-hora-id="${id}"]`);
+            horaSeleccionada.classList.remove('horas__hora--deshabilitada');
+            horaSeleccionada.classList.add('horas__hora--seleccionada');
+            horaSeleccionada.onClick = seleccionarHora;
+            })()
+
+        }
 
         //Se Ejecuta Cada El Usuario Cambia La Categoría Y El Día
         function terminoBusqueda(e){
