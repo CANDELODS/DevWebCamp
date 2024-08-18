@@ -9,12 +9,33 @@
         obtenerPonentes();
         ponentesInput.addEventListener('input', buscarPonentes);
 
+        if(ponenteInputHidden.value){
+            (async() => {
+                const ponente = await obtenerPonente(ponenteInputHidden.value);
+                const {nombre, apellido} = ponente;
+                //Insertar En El Html
+                const ponenteDOM = document.createElement('LI');
+                ponenteDOM.classList.add('listado-ponentes__ponente', 'listado-ponentes__ponente--seleccionado');
+                ponenteDOM.textContent = `${nombre}  ${apellido}`;
+                listadoPonentes.appendChild(ponenteDOM);
+            })()
+        }
+
+        //Obtiene Todos Los Ponentes
         async function obtenerPonentes() {
             const url = `/api/ponentes`;
             const respuesta = await fetch(url); //Hace La Consulta Hacia La URL Para Ver Si Puede Conectarse
             const resultado = await respuesta.json();
 
             formatearPonentes(resultado);   
+        }
+
+        //Obtener Un Ponente Por Su Id
+        async function obtenerPonente(id) {
+            const url = `/api/ponente?id=${id}`;
+            const respuesta = await fetch(url);
+            const resultado = await respuesta.json();
+            return resultado;
         }
         //Esta Función Le Da Un Formato Diferente A Los Ponentes, Obteniendo Solo La Información Necesaria
         function formatearPonentes(arrayPonentes = []){
@@ -84,16 +105,26 @@
         }
 
         function seleccionarPonente(e){
-            //Remover La Clase Previa
+            const ponente = e.target //Con Esto El Ponente Será El Que Seleccionemos
+            
+            // Verificar si el ponente ya está seleccionado
+            if(ponente.classList.contains('listado-ponentes__ponente--seleccionado')) {
+            // Si está seleccionado, quitar la clase de selección y limpiar el valor oculto
+            ponente.classList.remove('listado-ponentes__ponente--seleccionado');
+            ponenteInputHidden.value = ''; // Desselecciona el ponente
+            } else {
+             // Si no está seleccionado, quitar la selección previa, si existe
             const ponentePrevio = document.querySelector('.listado-ponentes__ponente--seleccionado');
             if(ponentePrevio){
                 ponentePrevio.classList.remove('listado-ponentes__ponente--seleccionado');
             }
-            const ponente = e.target //Con Esto El Ponente Será El Que Seleccionemos
+
+            // Agregar la clase de selección al nuevo ponente
             ponente.classList.add('listado-ponentes__ponente--seleccionado');
 
             //Asignamos El Id De La Selección A La Variable ponenteInputHidden
             ponenteInputHidden.value = ponente.dataset.ponenteId;
+            }
         }
     }
 })();
