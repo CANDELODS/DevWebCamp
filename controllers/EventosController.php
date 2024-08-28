@@ -12,6 +12,10 @@ use MVC\Router;
 
 class EventosController {
     public static function index(Router $router){
+        //Proteger Ruta
+        if(!isAdmin()){
+            header('Location: /login');
+        }
         //PAGINACIÓN
         //Obtenemos La Página Actual De La URL
         $pagina_actual = $_GET['page'];
@@ -50,6 +54,10 @@ class EventosController {
     }
 
     public static function crear(Router $router){
+        //Proteger Ruta
+        if(!isAdmin()){
+            header('Location: /login');
+        }
         $alertas = [];
 
         $categorias = Categoria::all('ASC');
@@ -58,6 +66,10 @@ class EventosController {
         $evento = new Evento;
 
         if($_SERVER['REQUEST_METHOD'] === 'POST'){
+            //Proteger Ruta
+            if(!isAdmin()){
+            header('Location: /login');
+            }
             $evento->sincronizar($_POST);
             $alertas = $evento->validar();
 
@@ -80,6 +92,10 @@ class EventosController {
     }
 
     public static function editar(Router $router){
+        //Proteger Ruta
+        if(!isAdmin()){
+            header('Location: /login');
+        }
         $alertas = [];
 
         $id = $_GET['id'];
@@ -96,6 +112,10 @@ class EventosController {
         }
 
         if($_SERVER['REQUEST_METHOD'] === 'POST'){
+            //Proteger Ruta
+            if(!isAdmin()){
+            header('Location: /login');
+            }
             $evento->sincronizar($_POST);
             $alertas = $evento->validar();
 
@@ -115,6 +135,29 @@ class EventosController {
             'horas' => $horas,
             'evento' => $evento
         ]);
+    }
+
+    public static function eliminar(){
+
+        if($_SERVER['REQUEST_METHOD'] === 'POST'){
+            //Proteger Ruta
+            if(!isAdmin()){
+            header('Location: /login');
+            }
+            //Recuperar El Id
+            $id = $_POST['id'];
+            //Traemos La Información Del Ponente A Eliminar
+            $evento = Evento::find($id);
+            //Verificar Si Existe
+            if(isset($evento)){
+                header('Location: /admin/eventos');
+            }
+            //Eliminar El Evento
+            $resultado = $evento->eliminar();
+            if($resultado){
+                header('Location: /admin/eventos');
+            }
+        }
     }
 
 }

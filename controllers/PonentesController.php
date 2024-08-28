@@ -184,16 +184,12 @@ class PonentesController {
     }
 
     public static function eliminar(){
-        //Proteger Ruta
-        if(!isAdmin()){
-            header('Location: /login');
-        }
 
         if($_SERVER['REQUEST_METHOD'] === 'POST'){
-        //Proteger Ruta
-        if(!isAdmin()){
+            //Proteger Ruta
+            if(!isAdmin()){
             header('Location: /login');
-        }
+            }
             //Recuperar El Id
             $id = $_POST['id'];
             //Traemos La Información Del Ponente A Eliminar
