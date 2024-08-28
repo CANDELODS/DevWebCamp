@@ -1,0 +1,31 @@
+@use 'base/variables' as v;
+@use 'base/mixins' as m;
+
+.agenda{
+    padding: 5rem 0;
+    @include m.contenedor;
+}
+
+.eventos{
+    //Los Modificadores Que Habiamos Usado Anteriormente Eran Solo Para Los Elementos, Por Lo Cual No Teniamos
+    //Problemas, Pero Ahora Necesitamos Modificar Un Bloque, Para Lo Cual Creamos La Siguiente Variable
+    //Para Poder Hacer Interpolación o Concatenación
+    $modificador: &;
+    &__heading{
+        color: v.$azul;
+        margin: 5rem 0;
+        text-align: left;
+        //El Valor De En Medio Es El Que No Aplica Ni En 2rem Ni 6rem Sin Embargo Será El Más Común (Valor Deseado)
+        font-size: clamp(2rem, -0.8rem + 8vw ,6rem); 
+
+    }
+    &__fecha{
+        color: v.$gris;
+        margin: 3rem 0 1rem 0;
+    }
+    &--workshops{
+        #{$modificador}__heading{
+            color: v.$secundario;
+        }
+    }
+}

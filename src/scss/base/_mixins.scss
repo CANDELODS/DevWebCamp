@@ -76,6 +76,14 @@
     text-align: center;
 }
 
+@mixin descripcion-pagina{
+    text-align: center;
+    font-size: 1.8rem;
+    font-weight: v.$delgada;
+    color: v.$gris-oscuro;
+    margin-bottom: 5rem;
+}
+
 @mixin texto-fluido($min, $max){
     //El Valor De En Medio Es El Que No Aplica Ni En $Min Ni $Max Sin Embargo Será El Más Común (Valor Deseado)
     font-size: clamp($min, -0.8rem + 10vw, $max);
@@ -180,5 +188,16 @@
             cursor: pointer;
             background-color: darken(v.$azul, 10%);
         }
+    }
+}
+
+@mixin card{
+    border: 1px solid lighten(v.$gris, 10%);
+    padding: 3rem;
+
+    &__nombre{
+        font-weight: v.$black;
+        font-size: 2.6rem;
+        margin: 2rem 0;
     }
 }
