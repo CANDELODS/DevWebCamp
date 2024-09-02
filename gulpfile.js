@@ -39,11 +39,20 @@ function css() {
 function javascript() {
     return src(paths.js)
       .pipe(webpack({
+        module: {
+            rules:[
+                {
+                    test:/\.css$/i,
+                    use:['style-loader', 'css-loader']
+                }
+            ]
+        },
         mode: 'production',
+        watch: true,
         entry: './src/js/app.js'
     }))
       .pipe(sourcemaps.init())
-      .pipe(concat('bundle.js')) 
+    //   .pipe(concat('bundle.js')) Esta linea Coge Todos Los Archivos Y Los Une Al Bundle, Pero Ya Viene Con Webpack
       .pipe(terser())
       .pipe(sourcemaps.write('.'))
       .pipe(rename({ suffix: '.min' }))

@@ -6,37 +6,28 @@
         <h3 class="eventos__heading">&lt;Conferencias /></h3>
         <p class="eventos__fecha">Viernes 29 De Agosto</p>
 
-        <div class="eventos__listado">
+        <!-- Swiper Para El Slider -->
+        <div class="eventos__listado slider swiper">
+            <div class="swiper-wrapper"> <!-- Esta CLase Es Requerida Por Swiper -->
             <?php foreach($eventos['conferencias_v'] as $evento){ ?>
-                <div class="evento">
-                    <p class="evento__hora"><?php echo $evento->hora->hora; ?></p>
-                    <div class="evento__informacion">
-                        <h4 class="evento__nombre"><?php echo $evento->nombre; ?></h4>
-                        <p class="evento__introduccion"><?php echo $evento->descripcion; ?></p>
-
-                        <div class="evento__autor-info">
-                            <picture>
-                                <!--img/speakers/<?php echo $evento->ponente->imagen; ?>.webp-->
-                            <source srcset="<?php echo $_ENV['HOST'] . '/img/speakers/' . $evento->ponente->imagen; ?>.webp"
-                                type="image/webp">
-                            <source srcset="<?php echo $_ENV['HOST'] . '/img/speakers/' . $evento->ponente->imagen; ?>.png"
-                                type="image/png">
-                            <img class="evento__imagen-autor" loading="lazy" width="200" height="300" src="<?php echo $_ENV['HOST'] . '/img/speakers/' . $evento->ponente->imagen; ?>.png" alt="Imagen Ponente">
-                            </picture>
-
-                            <p class="evento__autor-nombre">
-                                <?php echo $evento->ponente->nombre. " " . $evento->ponente->apellido; ?>
-                            </p>
-                        </div>
-                    </div>
-                </div>
+                <?php include __DIR__ . '../../templates/evento.php'; ?>
             <?php } ?>
+            </div> <!--.swiper-wrapper-->
+            <!--Es De La Librería De Swiper, Pone Las Flechitas Para Mover Los Slides-->
+            <di class="swiper-button-next"></di>
+            <di class="swiper-button-prev"></di>
         </div>
 
         <p class="eventos__fecha">Sábado 30 De Agosto</p>
-
-        <div class="eventos__listado">
-
+        <div class="eventos__listado slider swiper">
+            <div class="swiper-wrapper"> <!-- Esta CLase Es Requerida Por Swiper -->
+            <?php foreach($eventos['conferencias_s'] as $evento){ ?>
+                <?php include __DIR__ . '../../templates/evento.php'; ?>
+            <?php } ?>
+            </div> <!--.swiper-wrapper-->
+            <!--Es De La Librería De Swiper, Pone Las Flechitas Para Mover Los Slides-->
+            <di class="swiper-button-next"></di>
+            <di class="swiper-button-prev"></di>
         </div>
 
     </div> <!--.eventos-->
@@ -45,14 +36,28 @@
         <h3 class="eventos__heading">&lt;Workshops /></h3>
         <p class="eventos__fecha">Viernes 29 De Agosto</p>
 
-        <div class="eventos__listado">
-
+        <div class="eventos__listado slider swiper">
+            <div class="swiper-wrapper"> <!-- Esta CLase Es Requerida Por Swiper -->
+            <?php foreach($eventos['workshops_v'] as $evento){ ?>
+                <?php include __DIR__ . '../../templates/evento.php'; ?>
+            <?php } ?>
+            </div> <!--.swiper-wrapper-->
+            <!--Es De La Librería De Swiper, Pone Las Flechitas Para Mover Los Slides-->
+            <di class="swiper-button-next"></di>
+            <di class="swiper-button-prev"></di>
         </div>
 
         <p class="eventos__fecha">Sábado 30 De Agosto</p>
 
-        <div class="eventos__listado">
-
+        <div class="eventos__listado slider swiper">
+            <div class="swiper-wrapper"> <!-- Esta CLase Es Requerida Por Swiper -->
+            <?php foreach($eventos['workshops_s'] as $evento){ ?>
+                <?php include __DIR__ . '../../templates/evento.php'; ?>
+            <?php } ?>
+            </div> <!--.swiper-wrapper-->
+            <!--Es De La Librería De Swiper, Pone Las Flechitas Para Mover Los Slides-->
+            <di class="swiper-button-next"></di>
+            <di class="swiper-button-prev"></di>
         </div>
 
     </div> <!--.eventos-->

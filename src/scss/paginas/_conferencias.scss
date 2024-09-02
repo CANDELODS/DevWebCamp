@@ -27,6 +27,18 @@
         #{$modificador}__heading{
             color: v.$secundario;
         }
+        //Accedemos A La Clase .evento__información Que Esté En la Clase Con .eventos Con Modificador --workshops
+        .evento__informacion{
+            background-color: v.$secundario;
+            &:hover{
+                background-color: darken(v.$secundario, 10%);
+            }
+        }
+    }
+
+    .swiper-button-next,
+    .swiper-button-prev{
+        color: rgba(v.$blanco, .5);
     }
 }
 
@@ -44,6 +56,14 @@
         &:hover{
             background-color: darken(v.$azul, 10%);
         }
+    }
+    &__nombre{
+        font-size: 2rem;
+        margin: 0;
+        display: -webkit-box; //Caja Virutal, Nos Permite Acceder A Las Propiedades De Abajo
+        -webkit-line-clamp: 1; //Seleccionamos Cuantas Lineas Queremos Cortar
+        -webkit-box-orient: vertical;
+        overflow: hidden; //Lo Que No Esté Dentro De La Caja Virtual No Se Mostrará
     }
     &__introduccion{
         font-size: 1.6rem;
