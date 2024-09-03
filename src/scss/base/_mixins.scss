@@ -99,6 +99,7 @@
     color: v.$blanco;
     text-align: center;
     margin-bottom: 2rem;
+    white-space: nowrap; //El Logo Se Muestra En Una Sola Linea
     @include desktop(){
         text-align: left;
         margin: 0;
