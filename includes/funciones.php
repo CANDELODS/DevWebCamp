@@ -34,5 +34,5 @@ function iniciarSesion() : void{
 
 function paginaActual($path) : bool{
     //Buscamos Si La Ruta Actual Tiene Lo Que Buscamos
-    return str_contains($_SERVER['PATH_INFO'], $path) ? true : false;
+    return str_contains($_SERVER['PATH_INFO'] ?? '/', $path) ? true : false;
 }

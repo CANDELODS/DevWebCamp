@@ -164,8 +164,11 @@ class ActiveRecord {
     }
 
     //Traer Un Total De Registros
-    public static function total(){
+    public static function total($columna = '', $valor = ''){
         $query = "SELECT COUNT(*) FROM " . static::$tabla;
+        if($columna){
+            $query .= " WHERE ${columna} = ${valor}"; 
+        }
         $resultado = self::$db->query($query);
         $total = $resultado->fetch_array(); //Traemos Los Resultados
         return array_shift($total); //Array Shift Extrae El Primer Registro Del Arreglo

@@ -48,8 +48,8 @@
 }
 
 @mixin contenedor{
-    //Si El Contenido Puede Medir 120 Rem Lo Hará, De Lo Contrario Ocupará El 95% De La Pantalla
-    //Es Lo Mismo Que Tener max-width: 120rem; y width: 95%; Pero En Una Sola Linea
+    //Si El Contenido Puede Medir 140 Rem Lo Hará, De Lo Contrario Ocupará El 95% De La Pantalla
+    //Es Lo Mismo Que Tener max-width: 140rem; y width: 95%; Pero En Una Sola Linea
     width: min(95%, 140rem);
     margin: 0 auto;
 }
