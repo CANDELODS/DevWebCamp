@@ -40,16 +40,20 @@ class PaginasController{
             }
         }
         //Obtener El Total De Cada Bloque
-        $ponentes = Ponente::total();
-        $conferencias = Evento::total('categoria_id', 1);
-        $workshops = Evento::total('categoria_id', 2);
+        $ponentes_total = Ponente::total();
+        $conferencias_total = Evento::total('categoria_id', 1);
+        $workshops_total = Evento::total('categoria_id', 2);
+
+        //Obtener Todos Los Ponentes_total
+        $ponentes = Ponente::all();
 
         $router->render('paginas/index',[
             'titulo' => 'Inicio',
             'eventos' => $eventos_formateados,
+            'ponentes_total' => $ponentes_total,
             'ponentes' => $ponentes,
-            'conferencias' => $conferencias,
-            'workshops' => $workshops
+            'conferencias_total' => $conferencias_total,
+            'workshops_total' => $workshops_total
         ]);
         }
 
