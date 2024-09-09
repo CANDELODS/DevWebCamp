@@ -5,22 +5,22 @@ include_once __DIR__ . '/conferencias.php';
 
 <section class="resumen">
     <div class="resumen__grid">
-        <div class="resumen__bloque">
+        <div data-aos="fade-up" class="resumen__bloque">
             <p class="resumen__texto resumen__texto--numero"><?php echo $ponentes_total; ?></p>
             <p class="resumen__texto">Speakers</p>
         </div>
 
-        <div class="resumen__bloque">
+        <div data-aos="fade-down" class="resumen__bloque">
             <p class="resumen__texto resumen__texto--numero"><?php echo $conferencias_total; ?></p>
             <p class="resumen__texto">Conferencias</p>
         </div>
 
-        <div class="resumen__bloque">
+        <div data-aos="fade-right" class="resumen__bloque">
             <p class="resumen__texto resumen__texto--numero"><?php echo $workshops_total; ?></p>
             <p class="resumen__texto">Workshops</p>
         </div>
 
-        <div class="resumen__bloque">
+        <div data-aos="fade-left" class="resumen__bloque">
             <p class="resumen__texto resumen__texto--numero">18</p>
             <p class="resumen__texto">Asistentes</p>
         </div>
@@ -31,80 +31,112 @@ include_once __DIR__ . '/conferencias.php';
     <h2 class="speakers__heading">Speakers</h2>
     <p class="speakers__descripcion">Conoce A Nuestros Expertos De DevWebCamp</p>
 
-    <?php foreach ($ponentes as $ponente) { ?>
-        <div class="speaker">
-            <picture>
-                <!--img/speakers/<?php echo $ponente->imagen; ?>.webp-->
-                <source srcset="<?php echo $_ENV['HOST'] . '/img/speakers/' . $ponente->imagen; ?>.webp"
-                    type="image/webp">
-                <source srcset="<?php echo $_ENV['HOST'] . '/img/speakers/' . $ponente->imagen; ?>.png"
-                    type="image/png">
-                <img class="speaker__imagen" loading="lazy" width="200" height="300" src="<?php echo $_ENV['HOST'] . '/img/speakers/' . $ponente->imagen; ?>.png" alt="Imagen Ponente">
-            </picture>
+    <div class="speakers__grid">
 
-            <div class="speaker__informacion">
-                <h4 class="speaker__nombre"><?php echo $ponente->nombre . ' ' . $ponente->apellido; ?></h4>
+        <?php foreach ($ponentes as $ponente) { ?>
+            <div class="speaker">
+                <picture>
+                    <!--img/speakers/<?php echo $ponente->imagen; ?>.webp-->
+                    <source srcset="<?php echo $_ENV['HOST'] . '/img/speakers/' . $ponente->imagen; ?>.webp"
+                        type="image/webp">
+                    <source srcset="<?php echo $_ENV['HOST'] . '/img/speakers/' . $ponente->imagen; ?>.png"
+                        type="image/png">
+                    <img class="speaker__imagen" loading="lazy" width="200" height="300" src="<?php echo $_ENV['HOST'] . '/img/speakers/' . $ponente->imagen; ?>.png" alt="Imagen Ponente">
+                </picture>
 
-                <p class="speaker__ubicacion">
-                    <?php echo $ponente->ciudad . ', ' . $ponente->pais; ?>
-                </p>
+                <div class="speaker__informacion">
+                    <h4 class="speaker__nombre"><?php echo $ponente->nombre . ' ' . $ponente->apellido; ?></h4>
 
-                <nav class="speaker__sociales">
-                    <!-- Convertimos El String A Arreglo U Objeto Para Poder Iterarlo -->
-                    <?php
-                    $redes = json_decode($ponente->redes);
-                    ?>
-                    <?php if(!empty($redes->facebook)) {?>
-                        <a class="speaker__enlace" rel="noopener noreferrer" target="_blank" href="<?php echo $redes->facebook; ?>">
-                        <span class="speaker__ocultar">Facebook</span>
-                    </a>
-                    <?php }; ?>
+                    <p class="speaker__ubicacion">
+                        <?php echo $ponente->ciudad . ', ' . $ponente->pais; ?>
+                    </p>
 
-                    <?php if(!empty($redes->twitter)) {?>
-                        <a class="speaker__enlace" rel="noopener noreferrer" target="_blank" href="<?php echo $redes->twitter; ?>">
-                        <span class="speaker__ocultar">Twitter</span>
-                    </a>
-                    <?php }; ?>
+                    <nav class="speaker-sociales">
+                        <!-- Convertimos El String A Arreglo U Objeto Para Poder Iterarlo -->
+                        <?php
+                        $redes = json_decode($ponente->redes);
+                        ?>
+                        <?php if (!empty($redes->facebook)) { ?>
+                            <a class="speaker-sociales__enlace" rel="noopener noreferrer" target="_blank" href="<?php echo $redes->facebook; ?>">
+                                <span class="speaker-sociales__ocultar">Facebook</span>
+                            </a>
+                        <?php }; ?>
 
-                    <?php if(!empty($redes->youtube)) {?>
-                        <a class="speaker__enlace" rel="noopener noreferrer" target="_blank" href="<?php echo $redes->youtube; ?>">
-                        <span class="speaker__ocultar">YouTube</span>
-                    </a>
-                    <?php }; ?>
-                    
+                        <?php if (!empty($redes->twitter)) { ?>
+                            <a class="speaker-sociales__enlace" rel="noopener noreferrer" target="_blank" href="<?php echo $redes->twitter; ?>">
+                                <span class="speaker-sociales__ocultar">Twitter</span>
+                            </a>
+                        <?php }; ?>
 
-                    <?php if(!empty($redes->instagram)) {?>
-                        <a class="speaker__enlace" rel="noopener noreferrer" target="_blank" href="<?php echo $redes->instagram; ?>">
-                        <span class="speaker__ocultar">Instagram</span>
-                    </a>
-                    <?php }; ?>
-                    
+                        <?php if (!empty($redes->youtube)) { ?>
+                            <a class="speaker-sociales__enlace" rel="noopener noreferrer" target="_blank" href="<?php echo $redes->youtube; ?>">
+                                <span class="speaker-sociales__ocultar">YouTube</span>
+                            </a>
+                        <?php }; ?>
 
-                    <?php if(!empty($redes->tiktok)) {?>
-                        <a class="speaker__enlace" rel="noopener noreferrer" target="_blank" href="<?php echo $redes->tiktok; ?>">
-                        <span class="speaker__ocultar">Tiktok</span>
-                    </a>
-                    <?php }; ?>
-                    
 
-                    <?php if(!empty($redes->github)) {?>
-                        <a class="speaker__enlace" rel="noopener noreferrer" target="_blank" href="<?php echo $redes->github; ?>">
-                        <span class="speaker__ocultar">GitHub</span>
-                    </a>
-                    <?php }; ?>      
+                        <?php if (!empty($redes->instagram)) { ?>
+                            <a class="speaker-sociales__enlace" rel="noopener noreferrer" target="_blank" href="<?php echo $redes->instagram; ?>">
+                                <span class="speaker-sociales__ocultar">Instagram</span>
+                            </a>
+                        <?php }; ?>
 
-                </nav>
 
-                <ul class="speaker__listado-skills">
-                    <?php
-                    $tags = explode(',', $ponente->tags);  //Esta Función Nos Genera Un Arreglo
-                    foreach ($tags as $tag) { ?>
+                        <?php if (!empty($redes->tiktok)) { ?>
+                            <a class="speaker-sociales__enlace" rel="noopener noreferrer" target="_blank" href="<?php echo $redes->tiktok; ?>">
+                                <span class="speaker-sociales__ocultar">Tiktok</span>
+                            </a>
+                        <?php }; ?>
 
-                        <li class="speaker__skill"><?php echo $tag; ?></li>
-                    <?php }; ?>
 
-                </ul>
+                        <?php if (!empty($redes->github)) { ?>
+                            <a class="speaker-sociales__enlace" rel="noopener noreferrer" target="_blank" href="<?php echo $redes->github; ?>">
+                                <span class="speaker-sociales__ocultar">GitHub</span>
+                            </a>
+                        <?php }; ?>
+
+                    </nav>
+
+                    <ul class="speaker__listado-skills">
+                        <?php
+                        $tags = explode(',', $ponente->tags);  //Esta Función Nos Genera Un Arreglo
+                        foreach ($tags as $tag) { ?>
+
+                            <li class="speaker__skill"><?php echo $tag; ?></li>
+                        <?php }; ?>
+
+                    </ul>
+                </div>
             </div>
+        <?php } ?>
+    </div> <!--.speakers__grid-->
+</section>
+
+<div class="mapa" id="mapa"></div>
+
+<section class="boletos">
+    <h2 class="boletos__heading">Boletos & Precios</h2>
+    <p class="boletos__descripcion">Boletos Para DevWebCamp</p>
+
+    <div class="boletos__grid">
+        <div class="boleto boleto--presencial">
+            <h4 class="boleto__logo">&#60;DevWebCamp /></h4>
+            <p class="boleto__plan">Presencial</p>
+            <p class="boleto__precio">830.000COP</p>
         </div>
-    <?php } ?>
+        <div class="boleto boleto--virtual">
+            <h4 class="boleto__logo">&#60;DevWebCamp /></h4>
+            <p class="boleto__plan">Virtual</p>
+            <p class="boleto__precio">200.000COP</p>
+        </div>
+        <div class="boleto boleto--gratis">
+            <h4 class="boleto__logo">&#60;DevWebCamp /></h4>
+            <p class="boleto__plan">Gratis</p>
+            <p class="boleto__precio">Gratis - 0COP</p>
+        </div>
+    </div>
+
+    <div class="boleto__enlace-contenedor">
+        <a href="/paquetes" class="boleto__enlace">Ver Paquetes</a>
+    </div>
 </section>

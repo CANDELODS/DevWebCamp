@@ -1,0 +1,88 @@
+@use 'base/variables' as v;
+@use 'base/mixins' as m;
+
+.boletos {
+
+    &__grid {
+        @include m.contenedor-sm;
+        @include m.grid(1, 5rem);
+    }
+}
+
+.boleto {
+    //Si El Contenido Puede Medir 65 Rem Lo Hará, De Lo Contrario Ocupará El 100% - 5rem De La Pantalla
+    //Es Lo Mismo Que Tener max-width: 65rem; y width: 100% - 5rem; Pero En Una Sola Linea
+    width: min(100% - 5rem, 65rem);
+    margin: 0 auto;
+    padding: 6rem;
+    border-radius: 2rem;
+    color: v.$blanco;
+    position: relative;
+
+    //Recortar Máscara O Html (ClipPath)
+    &::before,
+    &::after{
+        position: absolute;
+        content: ''; //Cuando Se Usa Before Y After Siempre Se Debe De Poner El Content
+        background-color: v.$blanco;
+        width: 5rem;
+        height: 5rem;
+        top: calc(50% - 2.5rem);
+    }
+    //Lado Izquierdo Del Boleto
+    &::before{
+        //El At Define El Centro, Con El 100% Lo Posicionamos En La Derecha Y Hacemos El Corte Desde Allí, Si
+        //Colocamos Otro Valor Moveremos Verticalmente
+        clip-path: circle(50% at 25% 50%);
+        left: 0;
+    }
+    //Lado Derecho Del Boleto
+    &::after{
+        clip-path: circle(50% at 75% 50%);
+        right: 0;
+    }
+
+    &--presencial {
+        background-color: hsla(178, 100%, 39%, 1);
+        background-image:
+            radial-gradient(at 29% 56%, hsla(209, 100%, 47%, 1) 0px, transparent 50%),
+            radial-gradient(at 80% 0%, hsla(178, 100%, 39%, 1) 0px, transparent 50%),
+            radial-gradient(at 53% 60%, hsla(209, 100%, 47%, 1) 0px, transparent 50%),
+            radial-gradient(at 80% 50%, hsla(178, 100%, 39%, 1) 0px, transparent 50%),
+            radial-gradient(at 82% 74%, hsla(209, 100%, 47%, 1) 0px, transparent 50%),
+            radial-gradient(at 80% 100%, hsla(178, 100%, 39%, 1) 0px, transparent 50%),
+            radial-gradient(at 12% 11%, hsla(209, 100%, 47%, 1) 0px, transparent 50%);
+    }
+
+    &--virtual {
+        background-color: v.$secundario;
+    }
+
+    &--gratis {
+        background-color: v.$azul;
+    }
+
+    &__logo{
+        @include m.logo;
+        @include m.texto-fluido(2rem, 4rem);
+    }
+    &__plan{
+        font-size: 2rem;
+        text-transform: uppercase;
+        margin: 3rem 0 0 0;
+    }
+    &__precio{
+        margin: 3rem 0 0 0;
+        font-weight: v.$black;
+        font-size: 4rem;
+    }
+    &__enlace-contenedor{
+        margin-top: 5rem;
+        display: flex;
+        justify-content: center;
+    }
+    &__enlace{
+        @include m.boton(v.$azul, v.$blanco);
+        width: auto; //Tomará El Ancho Que Requiera
+    }
+}
