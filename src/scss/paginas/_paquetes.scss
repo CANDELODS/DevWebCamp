@@ -11,6 +11,10 @@
             align-items: flex-start; //Las Cards Tomarán El Tamaño Que Ocupa Su Contenido
         }
     }
+    &__submit{
+        @include m.boton(v.$azul, v.$blanco);
+        margin-top: 3rem;
+    }
 }
 
 .paquete{
