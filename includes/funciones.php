@@ -36,3 +36,10 @@ function paginaActual($path) : bool{
     //Buscamos Si La Ruta Actual Tiene Lo Que Buscamos
     return str_contains($_SERVER['PATH_INFO'] ?? '/', $path) ? true : false;
 }
+
+function aos_animacion(){
+    $efectos = ['fade-up', 'fade-down', 'fade-right', 'fade-left', 'flip-left', 'flip-right', 'zoom-in',
+                    'zoom-in-up', 'zoom-in-down', 'zoom-out'];
+    $efecto = array_rand($efectos, 1); //Nos Retorna Una Posición Aleatoria De Un Arreglo
+    echo ' data-aos="' .  $efectos[$efecto] . '" ';
+}
