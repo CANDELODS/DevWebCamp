@@ -1,0 +1,54 @@
+@use 'base/mixins' as m;
+@use 'base/variables' as v;
+
+.eventos-registro{
+    @include m.contenedor;
+    @include m.tablet{
+        display: flex;
+        align-items: flex-start; //Hace Que Funcione El Position Sticky Y (Tu Registro) Se Quede En La Pantalla
+        gap: 2rem;
+    }
+
+    &__listado{
+        @include m.tablet{
+            //Tomará El 60% De La Pantalla
+            flex: 0 0 60%;
+        }
+    }
+    &__grid{
+        @include m.grid(1, 3rem);
+        @include m.tablet{
+            @include m.grid(2, 3rem);
+        }
+    }
+    &__heading{
+        &--conferencias,
+        &--workshops{
+            white-space: nowrap; //Evitamos El Salto De Linea
+            @include m.texto-fluido(2rem, 4rem);
+        }
+        &--conferencias{
+            color: v.$azul;
+        }
+        &--workshops{
+            color: v.$secundario;
+            margin-top: 5rem;
+        }
+    }
+    &__fecha{
+        margin: 6rem 0 3rem 0;
+    }
+}
+
+.registro{
+    @include m.tablet{
+        //Tomará El 40% Restante De La Pantalla
+        flex: 0 0 40%;
+        position: -webkit-sticky;
+        position: sticky;
+        top: 3rem;
+    }
+    &__heading{
+        margin: 0 0 3rem 0;
+    }
+}

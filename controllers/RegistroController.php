@@ -2,10 +2,15 @@
 
 namespace Controllers;
 
-use Model\Paquete;
-use Model\Registro;
-use Model\Usuario;
+use Model\Dia;
+use Model\Hora;
 use MVC\Router;
+use Model\Evento;
+use Model\Paquete;
+use Model\Ponente;
+use Model\Usuario;
+use Model\Registro;
+use Model\Categoria;
 
 class RegistroController
 {
@@ -76,6 +81,84 @@ class RegistroController
         $router->render('registro/boleto', [
             'titulo' => 'Asistencia A DevWebCamp',
             'registro' => $registro
+        ]);
+    }
+
+    public static function pagar(Router $router)
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (!isAuth()) {
+                header('Location: /login');
+            }
+            //No Tenemos La Otra Comprobración Ya Que La Persona Puede Tener El Plan Gratis Y Quiere Cambiarlo
+            //Validar Que Post No Venga Vacio
+            if(empty($_POST)){
+                echo json_encode([]);
+                return;
+            }
+            //El Post Está LLeno, Entonces Creamos El Registro
+
+
+            $token = substr(md5(uniqid(rand(), true)), 0, 8);
+            //Crear Registro
+            $datos = $_POST;
+            $datos['token'] = $token;
+            $datos['usuario_id'] = $_SESSION['id'];
+
+            try {
+                $registro = new Registro($datos);
+                $resultado = $registro->guardar();
+                echo json_encode($resultado); //Enviamos El Resultado A Views/Registro/Crear.php
+            } catch (\Throwable $th) {
+                echo json_encode([
+                    'resultado' => 'error'
+                ]);
+            }
+        }
+    }
+
+    public static function conferencias(Router $router)
+    { 
+        //VALIDACIONES
+        if (!isAuth()) {
+            header('Location: /login');
+        }
+        //Validar Que El Usuario Tenga El Plan Presencial
+        $usuario_id = $_SESSION['id'];
+        $registro = Registro::where('usuario_id', $usuario_id);
+        if($registro->paquete_id !== "1"){
+            header('Location: /');
+        }
+        $eventos = Evento::ordenar('hora_id', 'ASC');
+            $eventos_formateados = [];
+            foreach($eventos as $evento){
+                //Se Crea Una LLave De Categoría Dentro Del Objeto De Eventos Y La Buscamos Por Su Id(En La Tabla De Categoria)
+                $evento->categoria = Categoria::find($evento->categoria_id);
+                $evento->dia = Dia::find($evento->dia_id);
+                $evento->hora = Hora::find($evento->hora_id);
+                $evento->ponente = Ponente::find(($evento->ponente_id));
+                //Conferencias Viernes
+                if($evento->dia_id === "1" AND $evento->categoria_id ==="1"){
+                    //Creamos La LLave "conferencias_v = conferencias dia viernes" Para Llenarla Con Los Eventos
+                    //Que Cumplan Con La Condición
+                    $eventos_formateados['conferencias_v'][] = $evento;
+                }
+                //Conferencias Sábado
+                if($evento->dia_id === "2" AND $evento->categoria_id ==="1"){
+                    $eventos_formateados['conferencias_s'][] = $evento;
+                }
+                //Workshops Viernes
+                if($evento->dia_id === "1" AND $evento->categoria_id ==="2"){
+                    $eventos_formateados['workshops_v'][] = $evento;
+                }
+                //Workshops Sábado
+                if($evento->dia_id === "2" AND $evento->categoria_id ==="2"){
+                    $eventos_formateados['workshops_s'][] = $evento;
+                }
+            }
+        $router->render('registro/conferencias', [
+            'titulo' => 'Elige Workshops Y Conferencias',
+            'eventos' => $eventos_formateados
         ]);
     }
 }
