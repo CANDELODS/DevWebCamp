@@ -1612,6 +1612,11 @@ h3 {
   margin: 6rem 0 3rem 0;
 }
 
+.registro {
+  background-color: #F8FAFC;
+  padding: 3rem;
+  border-radius: 1rem;
+}
 @media (min-width: 768px) {
   .registro {
     flex: 0 0 40%;
@@ -1622,5 +1627,21 @@ h3 {
 }
 .registro__heading {
   margin: 0 0 3rem 0;
+}
+.registro__evento {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.registro__nombre {
+  font-size: 2rem;
+  font-weight: 700;
+}
+.registro__eliminar {
+  all: unset;
+  color: rgb(169, 0, 0);
+}
+.registro__eliminar:hover {
+  cursor: pointer;
 }
 /*# sourceMappingURL=app.css.map */
