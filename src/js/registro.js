@@ -4,6 +4,7 @@ import Swal from 'sweetalert2';
     const resumen = document.querySelector('#registro-resumen');
     const eventosBoton = document.querySelectorAll('.evento__agregar');
     eventosBoton.forEach(boton => boton.addEventListener('click', seleccionarEvento));
+    
 
     //Nos Permitirá Seleccionar El Evento
     function seleccionarEvento(e) {
