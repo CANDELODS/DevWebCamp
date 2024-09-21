@@ -325,6 +325,10 @@ img {
   height: auto;
 }
 
+.swal2-popup {
+  font-size: 2rem !important;
+}
+
 h1, h2, h3 {
   font-family: "Outfit", sans-serif;
   font-weight: 900;
@@ -1632,10 +1636,15 @@ h3 {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 1rem;
+}
+.registro__evento:nth-child(even) {
+  background-color: #edf2f7;
 }
 .registro__nombre {
   font-size: 2rem;
   font-weight: 700;
+  margin: 0;
 }
 .registro__eliminar {
   all: unset;

@@ -58,10 +58,15 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+        padding: 1rem;
+        &:nth-child(even){
+            background-color: darken(v.$gris-claro, 3%);
+        }
     }
     &__nombre{
         font-size: 2rem;
         font-weight: v.$bold;
+        margin: 0;
     }
     &__eliminar{
         all: unset;
