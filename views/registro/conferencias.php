@@ -50,7 +50,7 @@
             </select> 
         </div>
 
-        <form class="registro" id="formulario">
+        <form class="formulario" id="registro">
             <div class="formulario__campo">
                 <input type="submit" class="formulario__submit formulario__submit--full" value="Registrarme">
             </div>

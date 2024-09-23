@@ -11,6 +11,7 @@ use Model\Ponente;
 use Model\Usuario;
 use Model\Registro;
 use Model\Categoria;
+use Model\EventosRegistro;
 use Model\Regalo;
 
 class RegistroController
@@ -25,6 +26,10 @@ class RegistroController
 
         if (isset($registro) && $registro->paquete_id === "3") {
             header('Location: /boleto?id=' . urlencode($registro->token));
+        }
+
+        if($registro->paquete_id === "1"){
+            header('Location: /finalizar-registro/conferencias');
         }
         $router->render('registro/crear', [
             'titulo' => 'Finalizar Registro'
@@ -130,6 +135,10 @@ class RegistroController
         if($registro->paquete_id !== "1"){
             header('Location: /');
         }
+        //Redireccionar A Boleto Virtual En Caso De Haber Finalizado Su Registro
+        if(isset($registro->regalo_id)){
+            header('Location: /boleto?id=' . urlencode($registro->token));
+        }
         $eventos = Evento::ordenar('hora_id', 'ASC');
             $eventos_formateados = [];
             foreach($eventos as $evento){
@@ -159,6 +168,70 @@ class RegistroController
             }
 
         $regalos = Regalo::all('ASC');
+
+        //Manejar El Registro Mediante $_POST
+        if($_SERVER['REQUEST_METHOD'] === 'POST'){
+            //Revisar Que El Usuario Esté Autenticado
+            if (!isAuth()) {
+                header('Location: /login');
+            }
+            //Separar Eventos
+            $eventos = explode(',', $_POST['eventos']);
+            if(empty($eventos)){
+                echo json_encode(['resultado' => false]);
+                return;
+            }
+            //Obtener El Registro Del Usuario
+            $registro = Registro::where('usuario_id', $_SESSION['id']);
+            if(!isset($registro) || $registro->paquete_id !== "1"){ //Si No Existe Registro (No Se Encontró En La BD) Entonces
+                echo json_encode(['resultado' => false]);
+                return;
+            }
+            //Validar La Disponibilidad De Los Eventos Seleccionados O Sea
+            //Validar Si Existe El Evento Y Si Hay Lugares Disponibles
+            $eventos_array = [];
+            foreach($eventos as $evento_id){
+                $evento = Evento::find($evento_id);
+
+                //Comprobar Que El Eventos Exista
+                if(!isset($evento) || $evento->disponibles === "0"){
+                    echo json_encode(['resultado' => false]);
+                    return;
+                }
+
+                //Si El Array Se Llena Significa Que El Evento Existe Y Hay Lugares Disponibles
+                $eventos_array[] = $evento;
+
+            }
+            //Primero Comprobramos Todos Los Registros Para Así Separar El Lugar De La Persona
+            foreach($eventos_array as $evento){
+                $evento->disponibles -= 1;
+                $evento->guardar();
+                //Almacenar El Resgistro (Relacion Muchos A Muchos)
+                $datos = [
+                    'evento_id' => (int) $evento->id,
+                    'registro_id' => (int) $registro->id
+                ];
+                
+                $registroUsuario = new EventosRegistro($datos);
+                $registroUsuario->guardar();
+
+                //Almacenar El Regalo
+                $registro->sincronizar(['regalo_id' => $_POST['regalo_id']]);
+                $resultado = $registro->guardar();
+                //Si Todo Salió Bien Entonces Enviamos Los Datos Como Json Al Backend
+                if($resultado){
+                    echo json_encode([
+                        'resultado' => $resultado,
+                        'token' => $registro->token
+                    ]);
+                }else{
+                    echo json_encode(['resultado' => false]);
+                }
+                return; //Evitamos Renderización De La Vista
+            }
+        }
+
         $router->render('registro/conferencias', [
             'titulo' => 'Elige Workshops Y Conferencias',
             'eventos' => $eventos_formateados,
