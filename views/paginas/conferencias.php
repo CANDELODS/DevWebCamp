@@ -14,8 +14,8 @@
             <?php } ?>
             </div> <!--.swiper-wrapper-->
             <!--Es De La Librería De Swiper, Pone Las Flechitas Para Mover Los Slides-->
-            <di class="swiper-button-next"></di>
-            <di class="swiper-button-prev"></di>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
         </div>
 
         <p class="eventos__fecha">Sábado 30 De Agosto</p>
@@ -26,8 +26,8 @@
             <?php } ?>
             </div> <!--.swiper-wrapper-->
             <!--Es De La Librería De Swiper, Pone Las Flechitas Para Mover Los Slides-->
-            <di class="swiper-button-next"></di>
-            <di class="swiper-button-prev"></di>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
         </div>
 
     </div> <!--.eventos-->
@@ -43,8 +43,8 @@
             <?php } ?>
             </div> <!--.swiper-wrapper-->
             <!--Es De La Librería De Swiper, Pone Las Flechitas Para Mover Los Slides-->
-            <di class="swiper-button-next"></di>
-            <di class="swiper-button-prev"></di>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
         </div>
 
         <p class="eventos__fecha">Sábado 30 De Agosto</p>
@@ -56,8 +56,8 @@
             <?php } ?>
             </div> <!--.swiper-wrapper-->
             <!--Es De La Librería De Swiper, Pone Las Flechitas Para Mover Los Slides-->
-            <di class="swiper-button-next"></di>
-            <di class="swiper-button-prev"></di>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
         </div>
 
     </div> <!--.eventos-->

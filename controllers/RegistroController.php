@@ -20,16 +20,19 @@ class RegistroController
     {
         if (!isAuth()) {
             header('Location: /');
+            return;
         }
         //Verificar Si El Usuario Ya Tiene Un Plan
         $registro = Registro::where('usuario_id', $_SESSION['id']);
 
-        if (isset($registro) && $registro->paquete_id === "3") {
+        if (isset($registro) && ($registro->paquete_id === "3" || $registro->paquete_id === "2")) {
             header('Location: /boleto?id=' . urlencode($registro->token));
+            return;
         }
 
-        if($registro->paquete_id === "1"){
+        if(isset($registro) && $registro->paquete_id === "1"){
             header('Location: /finalizar-registro/conferencias');
+            return;
         }
         $router->render('registro/crear', [
             'titulo' => 'Finalizar Registro'
@@ -41,17 +44,20 @@ class RegistroController
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (!isAuth()) {
                 header('Location: /login');
+                return;
             }
             //Verificar Si El Usuario Ya Tiene Un Plan
             $registro = Registro::where('usuario_id', $_SESSION['id']);
 
             if (isset($registro) && $registro->paquete_id === "3") {
                 header('Location: /boleto?id=' . urlencode($registro->token));
+                return;
             }        //Verificar Si El Usuario Ya Tiene Un Plan
             $registro = Registro::where('usuario_id', $_SESSION['id']);
 
             if (isset($registro) && $registro->paquete_id === "3") {
                 header('Location: /boleto?id=' . urlencode($registro->token));
+                return;
             }
             //Cortamos Los Primero Caracteres, Ya Que No Necesitamos Un Token Tan Largo
             $token = substr(md5(uniqid(rand(), true)), 0, 8);
@@ -63,6 +69,7 @@ class RegistroController
             if ($resultado) {
                 //UrlEncode Evita Caracteres Especiales
                 header('Location: /boleto?id=' . urlencode($registro->token));
+                return;
             }
         }
     }
@@ -73,11 +80,13 @@ class RegistroController
         $id = $_GET['id'];
         if (!$id || !strlen($id) === 8) {
             header('Location: /');
+            return;
         }
         //Buscar El Registro En La BD
         $registro = Registro::where('token', $id);
         if (!$registro) {
             header('Location: /');
+            return;
         }
         //Llenar Las Tablas De Referencia
         //Creamos La LLave Usuario La Cual Tendrá La Información Del Modelo De Usuario
@@ -95,6 +104,7 @@ class RegistroController
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (!isAuth()) {
                 header('Location: /login');
+                return;
             }
             //No Tenemos La Otra Comprobración Ya Que La Persona Puede Tener El Plan Gratis Y Quiere Cambiarlo
             //Validar Que Post No Venga Vacio
@@ -128,16 +138,25 @@ class RegistroController
         //VALIDACIONES
         if (!isAuth()) {
             header('Location: /login');
+            return;
         }
         //Validar Que El Usuario Tenga El Plan Presencial
         $usuario_id = $_SESSION['id'];
         $registro = Registro::where('usuario_id', $usuario_id);
+
+        if(isset($registro) && $registro->paquete_id === "2"){
+            header('Location: /boleto?id=' . urlencode($registro->token));
+            return;
+        }
+
         if($registro->paquete_id !== "1"){
             header('Location: /');
+            return;
         }
         //Redireccionar A Boleto Virtual En Caso De Haber Finalizado Su Registro
-        if(isset($registro->regalo_id)){
+        if(isset($registro->regalo_id) && $registro->paquete_id === "1"){
             header('Location: /boleto?id=' . urlencode($registro->token));
+            return;
         }
         $eventos = Evento::ordenar('hora_id', 'ASC');
             $eventos_formateados = [];
@@ -174,6 +193,7 @@ class RegistroController
             //Revisar Que El Usuario Esté Autenticado
             if (!isAuth()) {
                 header('Location: /login');
+                return;
             }
             //Separar Eventos
             $eventos = explode(',', $_POST['eventos']);
